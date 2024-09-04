@@ -17,7 +17,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final allUsers = ref.watch(usersProvider);
-    final favoriteUsers = ref.watch(favoriteNotifier);
+    final favoriteUsers = ref.watch(favoriteNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(

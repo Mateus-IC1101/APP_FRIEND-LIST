@@ -1,8 +1,6 @@
 import 'package:app_ui_list_crud_state_managment_all/models/user.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/favorite_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CardUserComponent extends ConsumerStatefulWidget {
@@ -16,7 +14,7 @@ class CardUserComponent extends ConsumerStatefulWidget {
 class _CardUserComponentState extends ConsumerState<CardUserComponent> {
   @override
   Widget build(BuildContext context) {
-    final favoriteUsers = ref.watch(favoriteNotifier);
+    final favoriteUsers = ref.watch(favoriteNotifierProvider);
     return Card(
       color: Colors.black,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -29,9 +27,21 @@ class _CardUserComponentState extends ConsumerState<CardUserComponent> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Align(
-                alignment: Alignment.topRight,
-                child: (widget.user.favorite!)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.circle,
+                        size: 20, color: Color.fromARGB(255, 33, 164, 74)),
+                    Text(
+                      'Online',
+                      style: TextStyle(
+                          color: Colors.grey, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                (widget.user.favorite)
                     ? IconButton(
                         icon: Icon(
                           Icons.favorite,
@@ -39,7 +49,8 @@ class _CardUserComponentState extends ConsumerState<CardUserComponent> {
                         ),
                         color: Color.fromARGB(255, 236, 30, 30),
                         onPressed: () {
-                          final notifier = ref.read(favoriteNotifier.notifier);
+                          final notifier =
+                              ref.read(favoriteNotifierProvider.notifier);
                           notifier.addOrRemoveFavorite(widget.user);
                         },
                       )
@@ -50,20 +61,26 @@ class _CardUserComponentState extends ConsumerState<CardUserComponent> {
                         ),
                         color: Color.fromARGB(255, 98, 97, 97),
                         onPressed: () {
-                          final notifier = ref.read(favoriteNotifier.notifier);
+                          final notifier =
+                              ref.read(favoriteNotifierProvider.notifier);
                           notifier.addOrRemoveFavorite(widget.user);
                         },
-                      )),
+                      )
+              ],
+            ),
+            // CircleAvatar(
+            //   backgroundImage: NetworkImage(widget.user.imageUrl),
+            //   radius: 40,
+            //   onBackgroundImageError: (error, stackTrace) {
+            //     Icon(
+            //       Icons.error,
+            //       color: Colors.red,
+            //     );
+            //   },
+            // ),
             CircleAvatar(
-              backgroundImage: NetworkImage(widget.user.imageUrl),
+              backgroundColor: Colors.indigo[200],
               radius: 40,
-              onBackgroundImageError: (error, stackTrace) {
-                // Exibe um ícone de erro se a imagem falhar ao carregar
-                Icon(
-                  Icons.error,
-                  color: Colors.red,
-                );
-              },
             ),
             const SizedBox(height: 8),
             Text(

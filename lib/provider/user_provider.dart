@@ -1,5 +1,4 @@
 import 'package:app_ui_list_crud_state_managment_all/models/user.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_provider.g.dart';

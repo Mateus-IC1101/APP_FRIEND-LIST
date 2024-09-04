@@ -1,11 +1,7 @@
 import 'package:app_ui_list_crud_state_managment_all/components/card_user_component.dart';
 import 'package:app_ui_list_crud_state_managment_all/components/utils/icons_buttons/icon_button_badge_component.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/favorite_provider.dart';
-import 'package:app_ui_list_crud_state_managment_all/provider/user_provider.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 
 class FavoritesScreen extends ConsumerStatefulWidget {
@@ -18,7 +14,7 @@ class FavoritesScreen extends ConsumerStatefulWidget {
 class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
-    final favoriteUsers = ref.watch(favoriteNotifier);
+    final favoriteUsers = ref.watch(favoriteNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(

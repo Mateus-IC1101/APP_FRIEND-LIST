@@ -1,18 +1,13 @@
 import 'package:app_ui_list_crud_state_managment_all/models/user.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class FavoriteNotifier extends Notifier<Set<User>> {
+part 'favorite_provider.g.dart';
+
+@riverpod
+class FavoriteNotifier extends _$FavoriteNotifier {
   @override
   Set<User> build() {
-    return {
-      User(
-          id: '10',
-          nome: 'Jack Anderson',
-          email: 'jack.anderson@example.com',
-          imageUrl:
-              'https://images.unsplash.com/photo-1607746882042-944635dfe10e',
-          favorite: true)
-    };
+    return {};
   }
 
   void addOrRemoveFavorite(User user) {
@@ -25,7 +20,3 @@ class FavoriteNotifier extends Notifier<Set<User>> {
     state = {...state}..remove(user);
   }
 }
-
-final favoriteNotifier = NotifierProvider<FavoriteNotifier, Set<User>>(() {
-  return FavoriteNotifier();
-});
