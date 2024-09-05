@@ -16,7 +16,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final allUsers = ref.watch(usersProvider);
+    final allUsers = ref.watch(userNotifierProvider);
     final favoriteUsers = ref.watch(favoriteNotifierProvider);
 
     return Scaffold(
@@ -70,13 +70,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: Container(
         color: Color.fromARGB(255, 48, 61, 95),
-        child: ListView.builder(
-          padding: const EdgeInsets.all(10),
-          itemCount: allUsers.length,
-          itemBuilder: (context, index) {
-            final user = allUsers[index];
-            return CardUserComponent(user: user);
+        child: allUsers.when(
+          data: (allUsers) {
+            return ListView.builder(
+              padding: const EdgeInsets.all(10),
+              itemCount: allUsers.length,
+              itemBuilder: (context, index) {
+                final user = allUsers.elementAt(index);
+                return CardUserComponent(user: user);
+              },
+            );
           },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(child: Text('Erro: $error')),
         ),
       ),
     );
