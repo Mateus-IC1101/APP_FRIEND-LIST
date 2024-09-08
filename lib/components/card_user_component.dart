@@ -68,19 +68,15 @@ class _CardUserComponentState extends ConsumerState<CardUserComponent> {
                       )
               ],
             ),
-            // CircleAvatar(
-            //   backgroundImage: NetworkImage(widget.user.imageUrl),
-            //   radius: 40,
-            //   onBackgroundImageError: (error, stackTrace) {
-            //     Icon(
-            //       Icons.error,
-            //       color: Colors.red,
-            //     );
-            //   },
-            // ),
             CircleAvatar(
-              backgroundColor: Colors.indigo[200],
+              backgroundImage: NetworkImage(widget.user.imageUrl),
               radius: 40,
+              onBackgroundImageError: (error, stackTrace) {
+                Icon(
+                  Icons.error,
+                  color: Colors.red,
+                );
+              },
             ),
             const SizedBox(height: 8),
             Text(

@@ -29,14 +29,22 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
       ),
       body: Container(
         color: Color.fromARGB(255, 48, 61, 95),
-        child: ListView.builder(
-          padding: const EdgeInsets.all(10),
-          itemCount: favoriteUsers.length,
-          itemBuilder: (context, index) {
-            final user = favoriteUsers.elementAt(index);
-            return CardUserComponent(user: user);
-          },
-        ),
+        child: favoriteUsers.isEmpty
+            ? Center(
+                child: Text(
+                  'Sem favoritos no momento',
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.bold),
+                ),
+              )
+            : ListView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: favoriteUsers.length,
+                itemBuilder: (context, index) {
+                  final user = favoriteUsers.elementAt(index);
+                  return CardUserComponent(user: user);
+                },
+              ),
       ),
     );
   }

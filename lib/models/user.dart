@@ -1,58 +1,53 @@
 class User {
-  // String id;
+  String id; // Campo id adicionado
   String nome;
   String email;
   bool favorite;
   String imageUrl;
-  String? firstName;
-  String? lastName;
-  String? avatar;
 
   User({
-    // required this.id,
+    required this.id, // Adicionado como obrigatório
     required this.nome,
     required this.email,
     required this.imageUrl,
-    this.firstName,
-    this.lastName,
-    this.avatar,
-    this.favorite = false,
+    this.favorite = false, // Valor padrão para favorite
   });
 
   User copyWith({
-    // String? id,
+    String? id,
     String? nome,
     String? email,
     bool? favorite,
     String? imageUrl,
-    String? firstName,
-    String? lastName,
-    String? avatar,
   }) {
     return User(
-      // id: id ?? this.id,
+      id: id ?? this.id, // Mantém o valor existente se não for fornecido
       nome: nome ?? this.nome,
       email: email ?? this.email,
       favorite: favorite ?? this.favorite,
       imageUrl: imageUrl ?? this.imageUrl,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      avatar: avatar ?? this.avatar,
     );
   }
 
-  // Método fromJson com os novos campos opcionais
-  factory User.fromJson(Map<dynamic, dynamic> json) {
+  // Método fromJson atualizado para refletir os campos fornecidos
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      nome:
-          json['first_name'] ?? '', // Nome é opcional, pode vir de `first_name`
+      id: json['id'] ?? '', // ID deve ser uma String não nula
+      nome: json['nome'] ?? '', // Nome pode vir como 'first_name'
       email: json['email'] ?? '', // Email deve ser uma String não nula
-      imageUrl:
-          json['avatar'] ?? '', // URL da imagem é opcional, use valor padrão
-      firstName: json['first_name'], // Campos opcionais
-      lastName: json['last_name'],
-      avatar: json['avatar'],
+      imageUrl: json['imageUrl'] ?? '', // URL da imagem
       favorite: json['favorite'] ?? false, // Valor padrão para favorite
     );
+  }
+
+  // Método toJson para converter o objeto em JSON, se necessário
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'email': email,
+      'imageUrl': imageUrl,
+      'favorite': favorite,
+    };
   }
 }

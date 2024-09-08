@@ -1,5 +1,6 @@
 import 'package:app_ui_list_crud_state_managment_all/components/card_user_component.dart';
 import 'package:app_ui_list_crud_state_managment_all/favorites_screen.dart';
+import 'package:app_ui_list_crud_state_managment_all/new_user.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Riverpod Management',
+          'Usuários',
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
@@ -69,21 +70,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         backgroundColor: Color.fromARGB(251, 95, 104, 130),
       ),
       body: Container(
-        color: Color.fromARGB(255, 48, 61, 95),
-        child: allUsers.when(
-          data: (allUsers) {
-            return ListView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: allUsers.length,
-              itemBuilder: (context, index) {
-                final user = allUsers.elementAt(index);
-                return CardUserComponent(user: user);
-              },
-            );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(child: Text('Erro: $error')),
-        ),
+          color: Color.fromARGB(255, 48, 61, 95),
+          child: allUsers.isEmpty
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: allUsers.length,
+                  itemBuilder: (context, index) {
+                    final user = allUsers.elementAt(index);
+                    return CardUserComponent(user: user);
+                  },
+                )),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
+        tooltip: 'Novo Usuário',
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const NewUserScreen()));
+        },
+        child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
     );
   }
