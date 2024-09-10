@@ -33,7 +33,7 @@ class _CardUserComponentState extends ConsumerState<CardUserComponent> {
                 Row(
                   children: [
                     Icon(Icons.circle,
-                        size: 20, color: Color.fromARGB(255, 33, 164, 74)),
+                        size: 16, color: Color.fromARGB(255, 33, 164, 74)),
                     Text(
                       'Online',
                       style: TextStyle(
@@ -41,31 +41,44 @@ class _CardUserComponentState extends ConsumerState<CardUserComponent> {
                     )
                   ],
                 ),
-                (widget.user.favorite)
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.favorite,
-                          size: 25,
-                        ),
-                        color: Color.fromARGB(255, 236, 30, 30),
-                        onPressed: () {
-                          final notifier =
-                              ref.read(favoriteNotifierProvider.notifier);
-                          notifier.addOrRemoveFavorite(widget.user);
-                        },
-                      )
-                    : IconButton(
-                        icon: Icon(
-                          Icons.favorite,
-                          size: 25,
-                        ),
-                        color: Color.fromARGB(255, 98, 97, 97),
-                        onPressed: () {
-                          final notifier =
-                              ref.read(favoriteNotifierProvider.notifier);
-                          notifier.addOrRemoveFavorite(widget.user);
-                        },
-                      )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.account_circle,
+                        size: 22,
+                      ),
+                      color: Colors.grey,
+                      onPressed: () {},
+                    ),
+                    (widget.user.favorite)
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.favorite,
+                              size: 22,
+                            ),
+                            color: Color.fromARGB(255, 236, 30, 30),
+                            onPressed: () {
+                              final notifier =
+                                  ref.read(favoriteNotifierProvider.notifier);
+                              notifier.addOrRemoveFavorite(widget.user);
+                            },
+                          )
+                        : IconButton(
+                            icon: Icon(
+                              Icons.favorite,
+                              size: 22,
+                            ),
+                            color: Colors.grey,
+                            onPressed: () {
+                              final notifier =
+                                  ref.read(favoriteNotifierProvider.notifier);
+                              notifier.addOrRemoveFavorite(widget.user);
+                            },
+                          )
+                  ],
+                )
               ],
             ),
             CircleAvatar(

@@ -2,8 +2,10 @@ import 'package:app_ui_list_crud_state_managment_all/components/utils/show/snack
 import 'package:app_ui_list_crud_state_managment_all/home_screen.dart';
 import 'package:app_ui_list_crud_state_managment_all/models/user.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/favorite_provider.dart';
+import 'package:app_ui_list_crud_state_managment_all/provider/form/new_user_form_provider.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NewUserScreen extends ConsumerStatefulWidget {
@@ -17,10 +19,15 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
   final _formKey = GlobalKey<FormState>();
 
   // Variáveis para armazenar os dados do formulário
-  final _nomeController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _imageUrlController = TextEditingController();
+  TextEditingController _nomeController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _imageUrlController = TextEditingController();
   bool _favorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
@@ -49,8 +56,32 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
     }
   }
 
+  void cleanForm() {
+    ref.read(newUserFormProvider.notifier).update((state) {
+      state.nome = '';
+      state.email = '';
+      state.imageUrl = '';
+      state.favorite = false;
+
+      _nomeController.text = '';
+      _emailController.text = '';
+      _imageUrlController.text = '';
+      _favorite = false;
+      return state;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final formProviderState = ref.read(newUserFormProvider.notifier).state;
+    final formProvider = ref.read(newUserFormProvider);
+
+    _nomeController.text = ref.read(newUserFormProvider.notifier).state.nome;
+    _emailController.text = ref.read(newUserFormProvider.notifier).state.email;
+    _imageUrlController.text =
+        ref.read(newUserFormProvider.notifier).state.imageUrl;
+    _favorite = ref.read(newUserFormProvider.notifier).state.favorite;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -78,11 +109,34 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                          onPressed: () {
+                            cleanForm();
+                          },
+                          icon: Icon(
+                            Icons.refresh,
+                            color: Color.fromARGB(248, 28, 135, 188),
+                          ))),
                   TextFormField(
                     controller: _nomeController,
+                    onChanged: (value) {
+                      ref.read(newUserFormProvider.notifier).update((state) {
+                        if (state != null) {
+                          state = state.copyWith(nome: _nomeController.text);
+                        }
+                        return state; // Retorna sempre um estado atualizado
+                      });
+                    },
                     decoration: const InputDecoration(
-                        labelText: 'Nome',
-                        labelStyle: TextStyle(color: Colors.grey)),
+                      labelText: 'Nome',
+                      labelStyle: TextStyle(
+                          color: Color.fromARGB(248, 28, 135, 188),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Por favor, insira um nome.';
@@ -93,9 +147,23 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _emailController,
+                    onChanged: (value) {
+                      ref.read(newUserFormProvider.notifier).update((state) {
+                        if (state != null) {
+                          state = state.copyWith(email: _emailController.text);
+                        }
+                        return state; // Retorna sempre um estado atualizado
+                      });
+                    },
                     decoration: const InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(color: Colors.grey)),
+                      labelText: 'Email',
+                      labelStyle: TextStyle(
+                          color: Color.fromARGB(248, 28, 135, 188),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                      // floatingLabelBehavior: FloatingLabelBehavior.auto
+                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Por favor, insira um email.';
@@ -109,20 +177,48 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _imageUrlController,
+                    onChanged: (value) {
+                      ref.read(newUserFormProvider.notifier).update((state) {
+                        if (state != null) {
+                          state = state.copyWith(
+                              imageUrl: _imageUrlController.text);
+                        }
+                        return state; // Retorna sempre um estado atualizado
+                      });
+                    },
                     decoration: const InputDecoration(
-                        labelText: 'Link da Foto',
-                        labelStyle: TextStyle(color: Colors.grey)),
+                      labelText: 'Link da Foto',
+                      labelStyle: TextStyle(
+                          color: Color.fromARGB(248, 28, 135, 188),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                      // floatingLabelBehavior: FloatingLabelBehavior.auto
+                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       const Text('Favorito',
-                          style: TextStyle(color: Colors.grey, fontSize: 16)),
+                          style: TextStyle(
+                              color: Color.fromARGB(248, 28, 135, 188),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14)),
                       Checkbox(
                         value: _favorite,
+                        activeColor: Colors.black,
+                        checkColor: Colors.green,
                         onChanged: (value) {
                           setState(() {
                             _favorite = value ?? false;
+                            ref
+                                .read(newUserFormProvider.notifier)
+                                .update((state) {
+                              if (state != null) {
+                                state = state.copyWith(favorite: value);
+                              }
+                              return state; // Retorna sempre um estado atualizado
+                            });
                           });
                         },
                       ),

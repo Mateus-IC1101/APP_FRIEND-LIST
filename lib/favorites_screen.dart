@@ -1,5 +1,5 @@
 import 'package:app_ui_list_crud_state_managment_all/components/card_user_component.dart';
-import 'package:app_ui_list_crud_state_managment_all/components/utils/icons_buttons/icon_button_badge_component.dart';
+import 'package:app_ui_list_crud_state_managment_all/components/utils/icon_button/icon_button_badge_component.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/favorite_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
