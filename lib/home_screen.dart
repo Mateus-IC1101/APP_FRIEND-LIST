@@ -2,6 +2,7 @@ import 'package:app_ui_list_crud_state_managment_all/components/card_user_compon
 import 'package:app_ui_list_crud_state_managment_all/favorites_screen.dart';
 import 'package:app_ui_list_crud_state_managment_all/new_user.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/favorite_provider.dart';
+import 'package:app_ui_list_crud_state_managment_all/provider/user/filters/user_filter_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app_ui_list_crud_state_managment_all/provider/user_provider.dart';
@@ -15,10 +16,16 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  TextEditingController _nomeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final allUsers = ref.watch(userNotifierProvider);
+    print('build');
+    final allUsers = ref.watch(userFilterNotifierProvider);
     final favoriteUsers = ref.watch(favoriteNotifierProvider);
+    print('---');
+    print(allUsers.length);
+    print('---');
 
     return Scaffold(
       appBar: AppBar(
@@ -71,16 +78,62 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: Container(
           color: Color.fromARGB(255, 48, 61, 95),
-          child: allUsers.isEmpty
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  padding: const EdgeInsets.all(10),
-                  itemCount: allUsers.length,
-                  itemBuilder: (context, index) {
-                    final user = allUsers.elementAt(index);
-                    return CardUserComponent(user: user);
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 5, 5, 5).withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: Offset(0, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: _nomeController,
+                  onChanged: (value) {
+                    final usersFilterLocal = ref
+                        .watch(userFilterNotifierProvider.notifier)
+                        .filterName(value);
+                    ref.watch(userFilterNotifierProvider.notifier).state =
+                        usersFilterLocal;
                   },
-                )),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.red,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.filter_list),
+                      onPressed: () {},
+                    ),
+                    hintText: 'Nome do usuário',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: ListView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: allUsers.length,
+                itemBuilder: (context, index) {
+                  final user = allUsers.elementAt(index);
+                  return CardUserComponent(user: user);
+                },
+              ))
+            ],
+          )),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
         tooltip: 'Novo Usuário',
