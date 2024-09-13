@@ -1,16 +1,14 @@
-# app_ui_list_crud_state_managment_all
+Aplicativo para aprimoramento com riverpod.
 
-A new Flutter project.
+O aplicativo está em desenvolvimento. Estado atual:
 
-## Getting Started
+![Captura de tela de 2024-09-13 17-47-24](https://github.com/user-attachments/assets/b883dd92-8599-447d-b213-43068cd49c9b)
 
-This project is a starting point for a Flutter application.
+![Captura de tela de 2024-09-13 17-47-24](https://github.com/user-attachments/assets/2344b81a-ea03-42a4-91fd-0ebe2b45eb7e)
 
-A few resources to get you started if this is your first Flutter project:
+![Captura de tela de 2024-09-13 17-46-52](https://github.com/user-attachments/assets/87bf1230-0d30-4622-a489-dbaf6b3cb112)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Implementações futuras:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+outros exemplos de providers com riverpod.
+
